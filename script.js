@@ -12,14 +12,7 @@ if (menu && nav) {
   });
 }
 
-// Scroll reveal animation for the existing portfolio structure.
-const revealItems = document.querySelectorAll('.panel, footer');
-revealItems.forEach((item, index) => {
-  item.classList.add('reveal');
-  if (index % 3 === 1) item.classList.add('from-left');
-  if (index % 3 === 2) item.classList.add('from-right');
-});
-
+const revealItems = document.querySelectorAll('.reveal');
 if ('IntersectionObserver' in window) {
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
@@ -39,9 +32,7 @@ if (form) {
     event.preventDefault();
     const data = new FormData(form);
     const subject = encodeURIComponent(data.get('subject') || 'Portfolio Contact');
-    const body = encodeURIComponent(
-      `Name: ${data.get('name') || ''}\nEmail: ${data.get('email') || ''}\nPhone: ${data.get('phone') || ''}\n\n${data.get('message') || ''}`
-    );
+    const body = encodeURIComponent(`Name: ${data.get('name') || ''}\nEmail: ${data.get('email') || ''}\nPhone: ${data.get('phone') || ''}\n\n${data.get('message') || ''}`);
     window.location.href = `mailto:mohammadtanberulislam@gmail.com?subject=${subject}&body=${body}`;
   });
 }
