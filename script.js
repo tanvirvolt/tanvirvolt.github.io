@@ -12,6 +12,28 @@ if (menu && nav) {
   });
 }
 
+// Scroll reveal animation for the existing portfolio structure.
+const revealItems = document.querySelectorAll('.panel, footer');
+revealItems.forEach((item, index) => {
+  item.classList.add('reveal');
+  if (index % 3 === 1) item.classList.add('from-left');
+  if (index % 3 === 2) item.classList.add('from-right');
+});
+
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.14 });
+  revealItems.forEach(item => observer.observe(item));
+} else {
+  revealItems.forEach(item => item.classList.add('show'));
+}
+
 if (form) {
   form.addEventListener('submit', event => {
     event.preventDefault();
