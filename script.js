@@ -1,37 +1,25 @@
-const menuToggle = document.getElementById("menuToggle");
-const nav = document.getElementById("nav");
-const themeToggle = document.getElementById("themeToggle");
-const year = document.getElementById("year");
+const menu = document.getElementById('menu');
+const nav = document.getElementById('nav');
+const form = document.getElementById('form');
+const year = document.getElementById('year');
 
-year.textContent = new Date().getFullYear();
+if (year) year.textContent = new Date().getFullYear();
 
-menuToggle.addEventListener("click", () => {
-  const open = nav.classList.toggle("open");
-  menuToggle.setAttribute("aria-expanded", String(open));
-  menuToggle.textContent = open ? "✕" : "☰";
-});
-
-document.querySelectorAll(".nav a").forEach(link => {
-  link.addEventListener("click", () => {
-    nav.classList.remove("open");
-    menuToggle.setAttribute("aria-expanded", "false");
-    menuToggle.textContent = "☰";
+if (menu && nav) {
+  menu.addEventListener('click', () => nav.classList.toggle('open'));
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', () => nav.classList.remove('open'));
   });
-});
-
-const savedTheme = localStorage.getItem("tanvir-theme");
-if (savedTheme) document.documentElement.setAttribute("data-theme", savedTheme);
-
-function updateThemeButton() {
-  const isLight = document.documentElement.getAttribute("data-theme") === "light";
-  themeToggle.textContent = isLight ? "☀ Light" : "☾ Dark";
 }
-updateThemeButton();
 
-themeToggle.addEventListener("click", () => {
-  const isLight = document.documentElement.getAttribute("data-theme") === "light";
-  const nextTheme = isLight ? "dark" : "light";
-  document.documentElement.setAttribute("data-theme", nextTheme);
-  localStorage.setItem("tanvir-theme", nextTheme);
-  updateThemeButton();
-});
+if (form) {
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const subject = encodeURIComponent(data.get('subject') || 'Portfolio Contact');
+    const body = encodeURIComponent(
+      `Name: ${data.get('name') || ''}\nEmail: ${data.get('email') || ''}\nPhone: ${data.get('phone') || ''}\n\n${data.get('message') || ''}`
+    );
+    window.location.href = `mailto:mohammadtanberulislam@gmail.com?subject=${subject}&body=${body}`;
+  });
+}
