@@ -1,4 +1,14 @@
 (() => {
+  const addFavicon = () => {
+    if (document.querySelector('link[data-tanvir-favicon]')) return;
+    const link = document.createElement('link');
+    link.rel = 'icon';
+    link.type = 'image/svg+xml';
+    link.href = 'favicon.svg';
+    link.dataset.tanvirFavicon = 'true';
+    document.head.appendChild(link);
+  };
+
   const addStyles = () => {
     if (document.getElementById('motor-workshop-styles')) return;
     const style = document.createElement('style');
@@ -63,6 +73,7 @@
   };
 
   const init = () => {
+    addFavicon();
     addStyles();
     addSkillChips();
     addWorkshopPanel();
