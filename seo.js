@@ -49,10 +49,14 @@
     document.head.appendChild(schema);
   }
 
-  if (!document.querySelector('script[data-eee-tools-loader]')) {
+  const loadScript = (src, marker) => {
+    if (document.querySelector(`script[data-${marker}]`)) return;
     const script = document.createElement('script');
-    script.src = 'eee-tools.js';
-    script.dataset.eeeToolsLoader = 'true';
+    script.src = src;
+    script.dataset[marker] = 'true';
     document.body.appendChild(script);
-  }
+  };
+
+  loadScript('eee-tools.js', 'eeeToolsLoader');
+  loadScript('contact-form.js', 'contactFormLoader');
 })();
