@@ -48,4 +48,11 @@
     });
     document.head.appendChild(schema);
   }
+
+  if (!document.querySelector('script[data-eee-tools-loader]')) {
+    const script = document.createElement('script');
+    script.src = 'eee-tools.js';
+    script.dataset.eeeToolsLoader = 'true';
+    document.body.appendChild(script);
+  }
 })();
