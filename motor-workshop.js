@@ -72,12 +72,21 @@
     timeline.appendChild(entry);
   };
 
+  const loadSeo = () => {
+    if (document.querySelector('script[data-seo-loader]')) return;
+    const script = document.createElement('script');
+    script.src = 'seo.js';
+    script.dataset.seoLoader = 'true';
+    document.body.appendChild(script);
+  };
+
   const init = () => {
     addFavicon();
     addStyles();
     addSkillChips();
     addWorkshopPanel();
     addExperienceEntry();
+    loadSeo();
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
