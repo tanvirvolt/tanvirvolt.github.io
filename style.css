@@ -65,3 +65,8 @@ nav a.is-active{
 @media(prefers-reduced-motion:reduce){
   .reveal,.motion-card,.hero .visual{opacity:1;transform:none!important;transition:none!important}
 }
+
+/* Tighten project-to-blog section spacing */
+.single-layout > .projects + #latest-blog-posts{
+  margin-top:-8px;
+}
