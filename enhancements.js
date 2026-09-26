@@ -223,6 +223,28 @@
     card.style.setProperty('--card-delay', Math.min((index % 6) * 55, 275) + 'ms');
   });
 
+  // Premium glass navigation state while scrolling.
+  const header = document.querySelector('header');
+  const syncHeader = () => {
+    if (header) header.classList.toggle('nav-scrolled', window.scrollY > 24);
+  };
+  syncHeader();
+  window.addEventListener('scroll', syncHeader, { passive: true });
+
+  // Subtle 3D tilt for desktop cards; disabled for touch/reduced-motion users.
+  if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll('.projects-grid article, .services article, .education-grid article, .stats-grid article, .contact-cards a').forEach(card => {
+      card.classList.add('tilt-card');
+      card.addEventListener('pointermove', event => {
+        const rect = card.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = \`perspective(700px) rotateX(\${(-y * 5).toFixed(2)}deg) rotateY(\${(x * 6).toFixed(2)}deg) translateY(-6px)\`;
+      });
+      card.addEventListener('pointerleave', () => { card.style.transform = ''; });
+    });
+  }
+
   const visual = document.querySelector('.hero .visual');
   if (visual) {
     let ticking = false;
