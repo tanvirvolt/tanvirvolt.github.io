@@ -3,11 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
   <meta name="description" content="Portfolio of Mohammad Tanberul Islam, Electrical & Electronics Engineer specializing in industrial maintenance, motor control, MATLAB/Simulink and energy efficiency.">
   <meta property="og:title" content="Tanberul Islam | Electrical Engineer">
   <meta property="og:description" content="Electrical & Electronics Engineer portfolio featuring industrial experience, engineering projects, thesis and CV.">
   <title>Tanberul Islam | Electrical & Electronics Engineer</title>
   <link rel="stylesheet" href="style.css">
+  <script>
+    (() => {
+      try {
+        const saved = localStorage.getItem('tanvirvolt-theme');
+        const theme = (saved === 'light' || saved === 'dark') ? saved : (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.dataset.theme = theme;
+      } catch (_) {}
+    })();
+  </script>
   <style>
     .cv-section{background:linear-gradient(135deg,#1b2d40,#162331)}
     .cv-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:24px;margin-top:26px;align-items:start}
