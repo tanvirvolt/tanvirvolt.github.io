@@ -10,24 +10,6 @@
   <link rel="stylesheet" href="style.css">
   <style>
     .cv-section{background:linear-gradient(135deg,#1b2d40,#162331)}
-    .hero-visual{position:relative;min-height:390px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .three-phase-wave{position:absolute;inset:auto -7% 4% -7%;height:180px;border:1px solid rgba(0,234,255,.12);border-radius:16px;background:rgba(4,17,30,.58);box-shadow:0 0 28px rgba(0,234,255,.07);overflow:hidden;z-index:0}
-    .three-phase-wave svg{width:100%;height:100%;display:block}
-    .wave-track{animation:threePhaseDrift 7s linear infinite}
-    .phase-wave{fill:none;stroke-width:2.6;vector-effect:non-scaling-stroke;filter:url(#waveGlow)}
-    .phase-a{stroke:#00eaff}
-    .phase-b{stroke:#55f5c4}
-    .phase-c{stroke:#8f7cff}
-    .wave-axis{stroke:rgba(255,255,255,.1);stroke-width:1;stroke-dasharray:4 8}
-    .wave-label{position:absolute;top:10px;left:14px;z-index:2;font:700 9px Rajdhani;letter-spacing:.14em;color:var(--muted)}
-    .phase-legend{position:absolute;right:14px;bottom:10px;z-index:2;display:flex;gap:12px;font:700 10px Rajdhani;color:var(--muted)}
-    .phase-legend span{display:flex;align-items:center;gap:5px}
-    .dot{width:6px;height:6px;border-radius:50%;display:inline-block}
-    .dot.a{background:#00eaff;box-shadow:0 0 7px #00eaff}.dot.b{background:#55f5c4;box-shadow:0 0 7px #55f5c4}.dot.c{background:#8f7cff;box-shadow:0 0 7px #8f7cff}
-    .hero-visual .hex{position:relative;z-index:2}
-    @keyframes threePhaseDrift{from{transform:translateX(0)}to{transform:translateX(-320px)}}
-    @media(max-width:800px){.hero-visual{min-height:330px}.three-phase-wave{bottom:0;height:145px;inset-left:0;inset-right:0}}
-    @media(prefers-reduced-motion:reduce){.wave-track{animation:none}}
     .cv-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:24px;margin-top:26px;align-items:start}
     .cv-summary,.cv-viewer{background:rgba(10,22,35,.58);border:1px solid rgba(0,234,255,.18);border-radius:14px;padding:24px}
     .cv-summary h3{font:700 23px Rajdhani;color:var(--cyan);margin-bottom:10px}
@@ -56,28 +38,7 @@
       </nav>
     </header>
     <main class="single-layout">
-      <section id="home" class="panel hero reveal"><div><small>ELECTRICAL & ELECTRONICS ENGINEER</small><h1>Hello, It's Me<br><b>Tanberul <i>Islam</i></b></h1><h2>I'm an <span>Electrical Engineer</span></h2><p>Industrial electrical maintenance professional with 6+ years of experience in preventive maintenance, ERP operations, motor systems and engineering documentation. Focused on control systems, energy efficiency and practical engineering solutions.</p><div class="social"><a href="https://github.com/tanvirvolt" aria-label="GitHub">GH</a><a href="https://www.linkedin.com/in/tanber" aria-label="LinkedIn">in</a><a href="mailto:mohammadtanberulislam@gmail.com" aria-label="Email">@</a><a href="https://circuitsecrets.blogspot.com" aria-label="Technical blog">↗</a></div><div class="hero-actions"><a class="btn" href="Tanberul_Islam_CV.pdf" download>Download CV</a><a class="btn ghost" href="#projects">View Projects ↗</a></div></div><div class="visual hero-visual">
-        <div class="three-phase-wave" aria-hidden="true">
-          <div class="wave-label">3-PHASE AC · 50 Hz · 120°</div>
-          <svg viewBox="0 0 600 320" preserveAspectRatio="none">
-            <defs>
-              <filter id="waveGlow" x="-20%" y="-30%" width="140%" height="160%">
-                <feGaussianBlur stdDeviation="3.5" result="blur"/>
-                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-              <clipPath id="waveClip"><rect x="0" y="0" width="600" height="320" rx="16"/></clipPath>
-            </defs>
-            <g class="wave-track" clip-path="url(#waveClip)">
-              <path class="phase-wave phase-a" d="M-320 160 C-293 80 -267 80 -240 160 S-187 240 -160 160 S-107 80 -80 160 S-27 240 0 160 S53 80 80 160 S133 240 160 160 S213 80 240 160 S293 240 320 160 S373 80 400 160 S453 240 480 160 S533 80 560 160 S613 240 640 160 S693 80 720 160 S773 240 800 160 S853 80 880 160 S933 240 960 160" />
-              <path class="phase-wave phase-b" d="M-320 160 C-293 240 -267 240 -240 160 S-187 80 -160 160 S-107 240 -80 160 S-27 80 0 160 S53 240 80 160 S133 80 160 160 S213 240 240 160 S293 80 320 160 S373 240 400 160 S453 80 480 160 S533 240 560 160 S613 80 640 160 S693 240 720 160 S773 80 800 160 S853 240 880 160 S933 80 960 160" />
-              <path class="phase-wave phase-c" d="M-320 160 C-293 160 -267 80 -240 80 S-187 160 -160 240 S-107 240 -80 160 S-27 80 0 80 S53 160 80 240 S133 240 160 160 S213 80 240 80 S293 160 320 240 S373 240 400 160 S453 80 480 80 S533 160 560 240 S613 240 640 160 S693 80 720 80 S773 160 800 240 S853 240 880 160 S933 80 960 80" />
-            </g>
-            <line class="wave-axis" x1="0" y1="160" x2="600" y2="160"/>
-          </svg>
-          <div class="phase-legend"><span><i class="dot a"></i>Va</span><span><i class="dot b"></i>Vb</span><span><i class="dot c"></i>Vc</span></div>
-        </div>
-        <div class="hex"><img src="profile.jpg" alt="Mohammad Tanberul Islam in a black suit with cyan neon background"></div>
-      </div></section>
+      <section id="home" class="panel hero reveal"><div><small>ELECTRICAL & ELECTRONICS ENGINEER</small><h1>Hello, It's Me<br><b>Tanberul <i>Islam</i></b></h1><h2>I'm an <span>Electrical Engineer</span></h2><p>Industrial electrical maintenance professional with 6+ years of experience in preventive maintenance, ERP operations, motor systems and engineering documentation. Focused on control systems, energy efficiency and practical engineering solutions.</p><div class="social"><a href="https://github.com/tanvirvolt" aria-label="GitHub">GH</a><a href="https://www.linkedin.com/in/tanber" aria-label="LinkedIn">in</a><a href="mailto:mohammadtanberulislam@gmail.com" aria-label="Email">@</a><a href="https://circuitsecrets.blogspot.com" aria-label="Technical blog">↗</a></div><div class="hero-actions"><a class="btn" href="Tanberul_Islam_CV.pdf" download>Download CV</a><a class="btn ghost" href="#projects">View Projects ↗</a></div></div><div class="visual"><div class="hex"><img src="profile.jpg" alt="Mohammad Tanberul Islam in a black suit with cyan neon background"></div></div></section>
       <section id="stats" class="stats-grid reveal"><article><strong>6+</strong><span>Years Experience</span></article><article><strong>500+</strong><span>ERP Store Items</span></article><article><strong>3.59</strong><span>BSc CGPA</span></article><article><strong>FOC</strong><span>Thesis Focus</span></article></section>
       <section id="about" class="panel about reveal from-left"><div class="hex small"><img src="profile.jpg" alt="Tanberul Islam portrait"></div><div><small>GET TO KNOW ME</small><h2>About <span>Me</span></h2><h3>Electrical & Electronics Engineer</h3><p>With 6+ years of industrial experience, I work with electrical maintenance, preventive maintenance planning, ERP operations, motors and engineering documentation. I completed my BSc in EEE with CGPA 3.59 and researched FOC-based induction motor control using MATLAB/Simulink.</p><a class="btn" href="#contact">Let's Connect</a></div></section>
       <section id="skills" class="panel reveal from-right"><small>TECHNICAL TOOLKIT</small><h2>Engineering <span>Skills</span></h2><div class="chips"><b>Electrical Maintenance</b><b>Induction Motors</b><b>FOC / SVPWM</b><b>MATLAB / Simulink</b><b>PLC Fundamentals</b><b>Motor Protection</b><b>AutoCAD Electrical</b><b>ERP Operations</b><b>3-Phase Power</b><b>Preventive Maintenance</b><b>Technical Documentation</b><b>Energy Optimization</b></div></section>
