@@ -67,9 +67,23 @@ nav a.is-active{
 }
 
 
-/* Remove the extra gap between Engineering Projects and Technical Blog */
-.single-layout > .projects + #latest-blog-posts{
+/* Tighten the dynamically-injected Technical Blog section */
+.single-layout > .projects + #latest-blog-posts,
+.single-layout > #latest-blog-posts{
   margin-top:-18px;
+  padding-top:30px;
+}
+@media(max-width:800px){
+  .single-layout > .projects + #latest-blog-posts,
+  .single-layout > #latest-blog-posts{
+    padding-top:26px;
+  }
+}
+@media(max-width:560px){
+  .single-layout > .projects + #latest-blog-posts,
+  .single-layout > #latest-blog-posts{
+    padding-top:24px;
+  }
 }
 
 /* Premium navigation, gradient typography and hover tilt */
