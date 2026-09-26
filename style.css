@@ -71,3 +71,12 @@ nav a.is-active{
 .single-layout > .projects + #latest-blog-posts{
   margin-top:-18px;
 }
+
+/* Premium navigation, gradient typography and hover tilt */
+header{transition:background .3s ease,box-shadow .3s ease,border-color .3s ease}
+header.nav-scrolled{background:rgba(12,20,32,.72);backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);border-bottom-color:rgba(0,234,255,.24);box-shadow:0 10px 35px rgba(0,0,0,.16)}
+.hero h1 b,.hero h2,h2 span{background:linear-gradient(90deg,var(--cyan),#7df8ff 48%,#9aa7ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.tilt-card{transform-style:preserve-3d;will-change:transform;transition:transform .18s ease,box-shadow .25s ease}
+.tilt-card:hover{box-shadow:0 18px 38px rgba(0,234,255,.12)}
+@media(max-width:800px){.tilt-card{transform:none!important}}
+@media(prefers-reduced-motion:reduce){header{transition:none}.tilt-card{transform:none!important}}
