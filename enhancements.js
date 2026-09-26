@@ -223,6 +223,41 @@
     card.style.setProperty('--card-delay', Math.min((index % 6) * 55, 275) + 'ms');
   });
 
+
+  // Professional typing effect for the hero role line.
+  const roleTarget = document.querySelector('.hero h2 span');
+  if (roleTarget && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const roles = ['Electrical & Electronics Engineer'];
+    let roleIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+
+    roleTarget.classList.add('typing-role');
+    roleTarget.textContent = '';
+
+    const typeRole = () => {
+      const current = roles[roleIndex];
+      roleTarget.textContent = current.slice(0, charIndex);
+
+      if (!deleting && charIndex < current.length) {
+        charIndex++;
+        setTimeout(typeRole, 75);
+      } else if (!deleting) {
+        deleting = true;
+        setTimeout(typeRole, 2200);
+      } else if (charIndex > 0) {
+        charIndex--;
+        setTimeout(typeRole, 42);
+      } else {
+        deleting = false;
+        roleIndex = (roleIndex + 1) % roles.length;
+        setTimeout(typeRole, 500);
+      }
+    };
+
+    typeRole();
+  }
+
   // Premium glass navigation state while scrolling.
   const header = document.querySelector('header');
   const syncHeader = () => {
