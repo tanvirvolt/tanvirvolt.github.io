@@ -193,6 +193,31 @@
 
   revealItems.forEach(el => revealObserver.observe(el));
 
+  // The Blogger section is injected asynchronously after this script starts.
+  // Watch for dynamically-added .reveal sections so they receive the same
+  // observer/show treatment instead of staying translated and creating a
+  // false visual gap above the section.
+  const revealMutationObserver = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      mutation.addedNodes.forEach(node => {
+        if (node.nodeType !== Node.ELEMENT_NODE) return;
+
+        const candidates = [];
+        if (node.matches?.('.reveal')) candidates.push(node);
+        node.querySelectorAll?.('.reveal').forEach(el => candidates.push(el));
+
+        candidates.forEach((el, index) => {
+          if (el.dataset.revealObserved === 'true') return;
+          el.dataset.revealObserved = 'true';
+          el.style.setProperty('--reveal-delay', Math.min(index * 70, 280) + 'ms');
+          revealObserver.observe(el);
+        });
+      });
+    });
+  });
+
+  revealMutationObserver.observe(document.body, { childList: true, subtree: true });
+
   document.querySelectorAll('.projects-grid article, .education-grid article, .stats-grid article, .services article, .contact-cards a').forEach((card, index) => {
     card.classList.add('motion-card');
     card.style.setProperty('--card-delay', Math.min((index % 6) * 55, 275) + 'ms');
