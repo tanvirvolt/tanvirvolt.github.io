@@ -3,8 +3,6 @@
   const style = document.createElement('style');
   style.textContent = `
     :root { scroll-behavior: smooth; color-scheme: dark; }
-    body::before { content:''; position:fixed; top:0; left:0; width:var(--scroll-progress,0%); height:3px; background:var(--cyan,#00eaff); z-index:9999; box-shadow:0 0 10px var(--cyan,#00eaff); pointer-events:none; }
-    nav a.active { color:var(--cyan,#00eaff)!important; text-shadow:0 0 10px rgba(0,234,255,.45); }
     a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline:2px solid var(--cyan,#00eaff); outline-offset:4px; }
     .image-lightbox { position:fixed; inset:0; z-index:10000; display:flex; align-items:center; justify-content:center; padding:24px; background:rgba(0,0,0,.88); opacity:0; visibility:hidden; transition:opacity .2s ease; }
     .image-lightbox.open { opacity:1; visibility:visible; }
@@ -46,7 +44,9 @@
   document.head.appendChild(style);
 
   const savedTheme = localStorage.getItem('tanvirvolt-theme');
-  if (savedTheme === 'light' || savedTheme === 'dark') root.dataset.theme = savedTheme;
+  const systemTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  const initialTheme = savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : systemTheme;
+  root.dataset.theme = initialTheme;
 
   const header = document.querySelector('header');
   const menu = document.getElementById('menu');
@@ -54,13 +54,13 @@
     const toggle = document.createElement('button');
     toggle.className = 'theme-toggle';
     toggle.type = 'button';
-    toggle.setAttribute('aria-label', 'Switch to light theme');
     toggle.setAttribute('title', 'Switch theme');
     header.insertBefore(toggle, menu || null);
     const syncToggle = () => {
       const isLight = root.dataset.theme === 'light';
       toggle.textContent = isLight ? '☀' : '☾';
       toggle.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+      toggle.setAttribute('title', isLight ? 'Switch to dark theme' : 'Switch to light theme');
       toggle.setAttribute('aria-pressed', String(isLight));
     };
     toggle.addEventListener('click', () => {
@@ -70,24 +70,15 @@
       syncToggle();
     });
     syncToggle();
-  }
 
-  const updateProgress = () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    root.style.setProperty('--scroll-progress', `${max > 0 ? (window.scrollY / max) * 100 : 0}%`);
-  };
-  window.addEventListener('scroll', updateProgress, { passive:true });
-  updateProgress();
-
-  const links = [...document.querySelectorAll('nav a[href^="#"]')];
-  const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
-  if ('IntersectionObserver' in window && sections.length) {
-    const navObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`));
-      });
-    }, { rootMargin:'-30% 0px -55% 0px', threshold:0 });
-    sections.forEach(section => navObserver.observe(section));
+    // Follow OS theme changes only when the visitor has not chosen a theme manually.
+    const systemPreference = window.matchMedia('(prefers-color-scheme: light)');
+    systemPreference.addEventListener?.('change', event => {
+      if (!localStorage.getItem('tanvirvolt-theme')) {
+        root.dataset.theme = event.matches ? 'light' : 'dark';
+        syncToggle();
+      }
+    });
   }
 
   const caseSection = document.querySelector('#case-studies');
