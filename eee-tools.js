@@ -17,13 +17,15 @@
 
   const addSection = () => {
     if ($('eee-tools')) return;
+    const blogHub = $('technical-blog-hub');
     const projects = $('projects');
-    if (!projects) return;
+    if (!blogHub && !projects) return;
     const section = document.createElement('section');
     section.id = 'eee-tools';
     section.className = 'panel eee-tools reveal';
     section.innerHTML = `<small>INTERACTIVE ENGINEERING LAB</small><h2>EEE <span>Tools</span></h2><p>Quick engineering estimations for learning and preliminary checks.</p><div class="eee-tools-grid">${card('Motor Current', `${input('mc-power','Motor power (kW)',7)}${input('mc-voltage','Voltage (V)',400)}${input('mc-efficiency','Efficiency (%)',90)}${input('mc-pf','Power factor (0–1)',0.85,0.01)}<label>Supply<input id="mc-phase" type="text" value="3" placeholder="1 or 3"></label><button class="btn" id="mc-calc">Calculate</button><div class="eee-result" id="mc-result">Enter values and calculate.</div>`)}${card('Cable Voltage Drop', `${input('cc-current','Current (A)',15)}${input('cc-length','One-way length (m)',30)}${input('cc-voltage','System voltage (V)',400)}${input('cc-area','Conductor area (mm²)',2.5,0.5)}<button class="btn" id="cc-calc">Calculate</button><div class="eee-result" id="cc-result">Copper approximation using a simplified resistance model.</div>`)}${card('Power Factor', `${input('pf-kw','Active power (kW)',10)}${input('pf-value','Power factor (0–1)',0.8,0.01)}<button class="btn" id="pf-calc">Calculate</button><div class="eee-result" id="pf-result">Enter kW and PF to calculate kVA and kVAR.</div>`)} </div><p class="eee-note">Note: These calculators are educational and preliminary estimation tools. Confirm ampacity, correction factors, installation method, protection, voltage-drop limits and applicable standards before practical electrical design.</p>`;
-    projects.insertAdjacentElement('afterend', section);
+    const anchor = blogHub || projects;
+    anchor.insertAdjacentElement('afterend', section);
   };
 
   function motorCurrent() {
