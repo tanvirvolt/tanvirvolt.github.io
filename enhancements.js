@@ -258,6 +258,21 @@
     typeRole();
   }
 
+
+  // Magnetic CTA buttons: gently pull toward the pointer on desktop.
+  if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll('.hero-actions .btn[href*="CV"], .contact button[type="submit"], .cv-actions .cv-download').forEach(button => {
+      button.classList.add('magnetic-btn');
+      button.addEventListener('pointermove', event => {
+        const rect = button.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+        button.style.transform = \`translate(\${(x * 9).toFixed(2)}px, \${(y * 7).toFixed(2)}px) translateY(-3px)\`;
+      });
+      button.addEventListener('pointerleave', () => { button.style.transform = ''; });
+    });
+  }
+
   // Premium glass navigation state while scrolling.
   const header = document.querySelector('header');
   const syncHeader = () => {
