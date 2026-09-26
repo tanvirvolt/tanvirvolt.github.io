@@ -29,3 +29,11 @@ nav a.is-active{
 @media(prefers-reduced-motion:reduce){
   #scroll-progress span{transition:none}
 }
+
+
+/* Mobile CV UX */
+@media(max-width:767px){
+  .cv-viewer{display:none}
+  .cv-open{display:none}
+  .cv-layout{grid-template-columns:1fr}
+}
