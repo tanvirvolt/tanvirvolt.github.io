@@ -3,7 +3,22 @@ const nav = document.getElementById('nav');
 const form = document.getElementById('form');
 const year = document.getElementById('year');
 if (year) year.textContent = new Date().getFullYear();
-if (menu && nav) { menu.addEventListener('click', () => nav.classList.toggle('open')); document.querySelectorAll('nav a').forEach(link => link.addEventListener('click', () => nav.classList.remove('open'))); }
+if (menu && nav) {
+  const syncMenuState = (open) => {
+    nav.classList.toggle('open', open);
+    menu.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menu.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+  };
+  syncMenuState(false);
+  menu.addEventListener('click', () => syncMenuState(!nav.classList.contains('open')));
+  document.querySelectorAll('nav a').forEach(link => link.addEventListener('click', () => syncMenuState(false)));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && nav.classList.contains('open')) {
+      syncMenuState(false);
+      menu.focus();
+    }
+  });
+}
 
 const thesisCopy = document.querySelector('.thesis-copy');
 if (thesisCopy && !document.querySelector('.thesis-gallery')) {
