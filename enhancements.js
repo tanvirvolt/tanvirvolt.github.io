@@ -313,3 +313,129 @@
     }, { passive: true });
   }
 })();
+
+
+/* === PREMIUM V2 INTERACTION LAYER === */
+(() => {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  const markStagger = (selector) => {
+    document.querySelectorAll(selector).forEach(el => el.classList.add('v2-stagger'));
+  };
+  markStagger('.services,.projects-grid,.education-grid,.case-study-grid,.expertise-grid,.achievement-grid');
+
+  // Hero engineering signal waveform.
+  const visual = document.querySelector('.hero .visual');
+  if (visual && !visual.querySelector('.v2-wave')) {
+    const wave = document.createElement('div');
+    wave.className = 'v2-wave';
+    wave.innerHTML = '<svg viewBox="0 0 260 44" aria-hidden="true"><path d="M0 24 C18 24 18 24 30 24 S43 8 54 24 S68 40 80 24 S95 8 108 24 S122 40 136 24 S150 8 164 24 S178 40 192 24 S207 8 220 24 S238 30 260 18"/></svg><i class="v2-signal-node"></i><i class="v2-signal-node"></i><i class="v2-signal-node"></i>';
+    visual.appendChild(wave);
+  }
+
+  // Timeline activation: the line draws in and each milestone lights up as it enters.
+  const timeline = document.querySelector('.timeline');
+  if (timeline && 'IntersectionObserver' in window) {
+    const timelineObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        timeline.classList.add('v2-active');
+        timeline.querySelectorAll('article').forEach((article, index) => {
+          setTimeout(() => article.classList.add('v2-active'), index * 180);
+        });
+        timelineObserver.unobserve(entry.target);
+      });
+    }, {threshold:.25});
+    timelineObserver.observe(timeline);
+  }
+
+  // FOC workflow visual — compact, technical and non-distracting.
+  const thesisCopy = document.querySelector('.thesis-copy');
+  if (thesisCopy && !document.querySelector('.v2-foc')) {
+    const flow = document.createElement('div');
+    flow.className = 'v2-foc';
+    flow.innerHTML = '<div class="v2-foc-label">CONTROL FLOW · IFOC + SVPWM</div><div class="v2-foc-flow"><span class="v2-foc-node">Reference<br>Speed</span><span class="v2-foc-node">FOC /<br>IFOC</span><span class="v2-foc-node">Clarke /<br>Park</span><span class="v2-foc-node">PI<br>Controller</span><span class="v2-foc-node">SVPWM</span><span class="v2-foc-node">VSI</span><span class="v2-foc-node">Induction<br>Motor</span></div>';
+    thesisCopy.appendChild(flow);
+    if (!reduce) {
+      const nodes = [...flow.querySelectorAll('.v2-foc-node')];
+      let active = 0;
+      const cycle = () => {
+        nodes.forEach((node, i) => node.classList.toggle('v2-on', i === active));
+        active = (active + 1) % nodes.length;
+      };
+      cycle();
+      window.setInterval(cycle, 900);
+    } else {
+      flow.querySelector('.v2-foc-node')?.classList.add('v2-on');
+    }
+  }
+
+  // Tool calculation feedback: scan + pulse + result entrance.
+  document.querySelectorAll('.eee-tool-card').forEach(card => {
+    if (!card.querySelector('.v2-tool-scan')) {
+      const scan = document.createElement('i');
+      scan.className = 'v2-tool-scan';
+      scan.setAttribute('aria-hidden','true');
+      card.appendChild(scan);
+    }
+    const button = card.querySelector('button');
+    const result = card.querySelector('.eee-result');
+    if (!button || !result || button.dataset.v2Bound) return;
+    button.dataset.v2Bound = 'true';
+    button.addEventListener('click', () => {
+      card.classList.add('v2-calculating');
+      result.classList.remove('v2-result-in');
+      window.setTimeout(() => {
+        card.classList.remove('v2-calculating');
+        result.classList.add('v2-result-in');
+      }, 650);
+    });
+  });
+
+  // Keep dynamically-added tool cards covered too.
+  const bodyObserver = new MutationObserver(() => {
+    document.querySelectorAll('.eee-tool-card:not([data-v2-ready])').forEach(card => {
+      card.dataset.v2Ready = 'true';
+      const scan = document.createElement('i');
+      scan.className = 'v2-tool-scan';
+      scan.setAttribute('aria-hidden','true');
+      card.appendChild(scan);
+      const button = card.querySelector('button');
+      const result = card.querySelector('.eee-result');
+      if (button && result) {
+        button.addEventListener('click', () => {
+          card.classList.add('v2-calculating');
+          result.classList.remove('v2-result-in');
+          window.setTimeout(() => {
+            card.classList.remove('v2-calculating');
+            result.classList.add('v2-result-in');
+          }, 650);
+        });
+      }
+    });
+  });
+  document.querySelectorAll('.eee-tool-card').forEach(card => card.dataset.v2Ready = 'true');
+  bodyObserver.observe(document.body,{childList:true,subtree:true});
+
+  // Subtle cursor glow on larger screens — follows only inside the hero, not the whole page.
+  if (!reduce && finePointer && visual) {
+    const glow = document.createElement('i');
+    glow.className = 'v2-cursor-glow';
+    glow.style.cssText = 'position:absolute;width:120px;height:120px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(0,234,255,.12),transparent 68%);transform:translate(-50%,-50%);opacity:0;transition:opacity .2s ease;z-index:1;';
+    visual.appendChild(glow);
+    visual.addEventListener('pointermove', event => {
+      const rect = visual.getBoundingClientRect();
+      glow.style.left = (event.clientX - rect.left) + 'px';
+      glow.style.top = (event.clientY - rect.top) + 'px';
+      glow.style.opacity = '1';
+    });
+    visual.addEventListener('pointerleave', () => { glow.style.opacity='0'; });
+  }
+
+  // Footer engineering signature.
+  const footer = document.querySelector('footer');
+  if (footer && !footer.querySelector('.v2-footer-signature')) {
+    footer.insertAdjacentHTML('beforeend','<span class="v2-footer-signature">ENGINEERED FOR CLARITY · CONTROL · PERFORMANCE</span>');
+  }
+})();
