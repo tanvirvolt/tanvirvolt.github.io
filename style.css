@@ -581,3 +581,179 @@ header.nav-scrolled{
     transform:none;
   }
 }
+
+
+/* === Premium V2.5 visual polish: glass, tech background, spotlight, dividers === */
+:root{
+  --glass-bg:rgba(12,27,42,.48);
+  --glass-border:rgba(0,234,255,.13);
+  --glass-border-hover:rgba(0,234,255,.34);
+}
+.glass-card,
+.projects-grid article,
+.services article,
+.education-grid article,
+.stats-grid article,
+.eee-tool-card,
+.latest-blog-card,
+.expertise-card,
+.achievement-card,
+.case-study-grid article,
+.contact-cards a{
+  background:linear-gradient(145deg,rgba(14,31,47,.62),rgba(8,19,31,.46));
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(14px) saturate(130%);
+  -webkit-backdrop-filter:blur(14px) saturate(130%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 12px 30px rgba(0,0,0,.10);
+}
+.projects-grid article:hover,
+.services article:hover,
+.education-grid article:hover,
+.stats-grid article:hover,
+.eee-tool-card:hover,
+.latest-blog-card:hover,
+.expertise-card:hover,
+.achievement-card:hover,
+.case-study-grid article:hover,
+.contact-cards a:hover{
+  border-color:var(--glass-border-hover);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 16px 36px rgba(0,0,0,.16),0 0 22px rgba(0,234,255,.055);
+}
+:root[data-theme="light"]{
+  --glass-bg:rgba(255,255,255,.64);
+  --glass-border:rgba(0,109,156,.15);
+  --glass-border-hover:rgba(0,109,156,.34);
+}
+:root[data-theme="light"] .glass-card,
+:root[data-theme="light"] .projects-grid article,
+:root[data-theme="light"] .services article,
+:root[data-theme="light"] .education-grid article,
+:root[data-theme="light"] .stats-grid article,
+:root[data-theme="light"] .eee-tool-card,
+:root[data-theme="light"] .latest-blog-card,
+:root[data-theme="light"] .expertise-card,
+:root[data-theme="light"] .achievement-card,
+:root[data-theme="light"] .case-study-grid article,
+:root[data-theme="light"] .contact-cards a{
+  background:linear-gradient(145deg,rgba(255,255,255,.78),rgba(238,246,251,.62));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.72),0 12px 30px rgba(24,52,77,.08);
+}
+
+/* Very subtle moving engineering grid/circuit field */
+.v25-tech-bg{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  overflow:hidden;
+  opacity:.075;
+}
+.v25-tech-bg:before,
+.v25-tech-bg:after{
+  content:'';
+  position:absolute;
+  inset:-20%;
+  background-image:
+    linear-gradient(90deg,transparent 0 96%,rgba(0,234,255,.75) 96% 96.15%,transparent 96.15%),
+    linear-gradient(0deg,transparent 0 96%,rgba(0,234,255,.75) 96% 96.15%,transparent 96.15%);
+  background-size:180px 180px;
+  transform:skewY(-7deg);
+  animation:v25-grid-drift 28s linear infinite;
+}
+.v25-tech-bg:after{
+  inset:-30%;
+  background-image:radial-gradient(circle,rgba(0,234,255,.9) 0 1px,transparent 1.5px);
+  background-size:34px 34px;
+  opacity:.5;
+  transform:none;
+  animation:v25-dots-drift 22s linear infinite;
+}
+.v25-tech-line{
+  position:absolute;
+  width:38vw;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,234,255,.55),transparent);
+  box-shadow:0 0 10px rgba(0,234,255,.22);
+  transform:rotate(-18deg);
+  animation:v25-line-sweep 16s ease-in-out infinite;
+}
+.v25-tech-line:nth-child(1){top:24%;left:-12%}
+.v25-tech-line:nth-child(2){top:68%;right:-14%;animation-delay:-7s;transform:rotate(18deg)}
+.v25-tech-line:nth-child(3){top:43%;left:38%;width:24vw;animation-delay:-11s}
+@keyframes v25-grid-drift{to{transform:skewY(-7deg) translate3d(90px,60px,0)}}
+@keyframes v25-dots-drift{to{transform:translate3d(-34px,-34px,0)}}
+@keyframes v25-line-sweep{0%,100%{opacity:.15;transform:translateX(-8vw) rotate(-18deg)}50%{opacity:.55;transform:translateX(10vw) rotate(-18deg)}}
+@media(max-width:767px){.v25-tech-bg{opacity:.045}.v25-tech-line{display:none}}
+
+/* Typing caret */
+.hero h2 .typing-role{
+  position:relative;
+  display:inline-block;
+  padding-right:7px;
+}
+.hero h2 .typing-role:after{
+  content:'';
+  position:absolute;
+  right:0;
+  top:12%;
+  width:2px;
+  height:76%;
+  background:var(--cyan);
+  box-shadow:0 0 8px rgba(0,234,255,.75);
+  animation:v25-caret .8s steps(1,end) infinite;
+}
+@keyframes v25-caret{50%{opacity:0}}
+.magnetic-btn{will-change:transform}
+
+/* Cursor spotlight for dark sections */
+.v25-spotlight{
+  position:fixed;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:0;
+  opacity:0;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(0,234,255,.095) 0%,rgba(0,234,255,.035) 28%,transparent 70%);
+  mix-blend-mode:screen;
+  transition:opacity .25s ease;
+}
+:root[data-theme="light"] .v25-spotlight{display:none}
+
+/* Angled SVG section dividers */
+.v25-section-divider{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-1px;
+  height:34px;
+  z-index:3;
+  pointer-events:none;
+  overflow:hidden;
+}
+.v25-section-divider svg{
+  display:block;
+  width:100%;
+  height:100%;
+}
+.v25-section-divider path{
+  fill:none;
+  stroke:rgba(0,234,255,.16);
+  stroke-width:1.2;
+  vector-effect:non-scaling-stroke;
+}
+.v25-section-divider .divider-fill{
+  fill:rgba(0,234,255,.018);
+  stroke:none;
+}
+:root[data-theme="light"] .v25-section-divider path{stroke:rgba(0,109,156,.14)}
+:root[data-theme="light"] .v25-section-divider .divider-fill{fill:rgba(0,109,156,.025)}
+@media(max-width:560px){
+  .v25-section-divider{height:25px}
+  .hero h2 .typing-role:after{top:15%;height:70%}
+}
+@media(prefers-reduced-motion:reduce){
+  .v25-tech-bg:before,.v25-tech-bg:after,.v25-tech-line,.hero h2 .typing-role:after{animation:none!important}
+  .v25-spotlight{display:none}
+}
