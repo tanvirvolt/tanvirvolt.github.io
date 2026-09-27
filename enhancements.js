@@ -439,3 +439,71 @@
     footer.insertAdjacentHTML('beforeend','<span class="v2-footer-signature">ENGINEERED FOR CLARITY · CONTROL · PERFORMANCE</span>');
   }
 })();
+
+
+/* === PREMIUM V2.5 INTERACTION LAYER === */
+(() => {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  // Ambient engineering background.
+  if (!document.querySelector('.v25-tech-bg')) {
+    const bg = document.createElement('div');
+    bg.className = 'v25-tech-bg';
+    bg.setAttribute('aria-hidden','true');
+    bg.innerHTML = '<i class="v25-tech-line"></i><i class="v25-tech-line"></i><i class="v25-tech-line"></i>';
+    document.body.prepend(bg);
+  }
+
+  // Cursor spotlight across dark sections only.
+  if (!reduce && fine && !document.querySelector('.v25-spotlight')) {
+    const spotlight = document.createElement('div');
+    spotlight.className = 'v25-spotlight';
+    spotlight.setAttribute('aria-hidden','true');
+    document.body.appendChild(spotlight);
+    let x = -500, y = -500, tx = x, ty = y, active = false;
+    const darkSection = (target) => {
+      const section = target.closest?.('.panel, .projects, .thesis, .eee-tools, .contact, #case-studies');
+      return !!section && !target.closest('header, footer');
+    };
+    document.addEventListener('pointermove', event => {
+      tx = event.clientX; ty = event.clientY;
+      active = darkSection(event.target);
+      spotlight.style.opacity = active ? '1' : '0';
+    }, {passive:true});
+    const animate = () => {
+      x += (tx-x)*.12; y += (ty-y)*.12;
+      spotlight.style.left = x + 'px';
+      spotlight.style.top = y + 'px';
+      requestAnimationFrame(animate);
+    };
+    animate();
+  }
+
+  // SVG wave dividers on major sections.
+  const dividerSections = ['#about','#skills','#experience','#projects','#thesis','#contact'];
+  dividerSections.forEach(selector => {
+    const section = document.querySelector(selector);
+    if (!section || section.querySelector('.v25-section-divider')) return;
+    section.style.position = section.style.position || 'relative';
+    section.insertAdjacentHTML('beforeend',
+      '<div class="v25-section-divider" aria-hidden="true"><svg viewBox="0 0 1200 34" preserveAspectRatio="none"><path class="divider-fill" d="M0 21 C180 5 340 5 520 20 S860 38 1200 12 V34 H0 Z"></path><path d="M0 21 C180 5 340 5 520 20 S860 38 1200 12"></path></svg></div>'
+    );
+  });
+
+  // Re-apply magnetic behavior safely without competing with the existing handler.
+  if (!reduce && fine) {
+    document.querySelectorAll('.hero-actions .btn[href*="CV"], .contact button[type="submit"], .cv-actions .cv-download').forEach(button => {
+      if (button.dataset.v25Magnetic) return;
+      button.dataset.v25Magnetic = 'true';
+      button.classList.add('magnetic-btn');
+      button.addEventListener('pointermove', event => {
+        const rect = button.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - .5;
+        const y = (event.clientY - rect.top) / rect.height - .5;
+        button.style.transform = `translate(${(x*7).toFixed(2)}px,${(y*5).toFixed(2)}px) translateY(-3px)`;
+      });
+      button.addEventListener('pointerleave', () => { button.style.transform=''; });
+    });
+  }
+})();
