@@ -539,3 +539,45 @@ header.nav-scrolled{
   .v2-foc-node{transition:none}
   .projects-grid article:after,.hero-actions .btn:after{display:none}
 }
+
+
+/* === Work Experience readability fix === */
+.timeline article{
+  opacity:1;
+  transform:none;
+  color:var(--text);
+}
+.timeline article.v2-active{
+  opacity:1;
+  transform:none;
+}
+.timeline h3{
+  color:#eefaff;
+  text-shadow:0 0 10px rgba(0,234,255,.05);
+}
+.timeline h4{
+  color:#aebdcc;
+}
+.timeline p{
+  color:#9aaabd;
+  max-width:700px;
+}
+.timeline span{
+  color:var(--cyan);
+  text-shadow:0 0 8px rgba(0,234,255,.18);
+}
+.timeline article:before{
+  background:var(--bg);
+  border-color:var(--cyan);
+  box-shadow:0 0 10px rgba(0,234,255,.28);
+}
+.timeline article.v2-active:before{
+  background:var(--cyan);
+  box-shadow:0 0 0 5px rgba(0,234,255,.08),0 0 18px rgba(0,234,255,.7);
+}
+@media(prefers-reduced-motion:reduce){
+  .timeline article{
+    opacity:1;
+    transform:none;
+  }
+}
