@@ -167,7 +167,7 @@
       section.appendChild(grid);
     }
 
-    const anchor = document.getElementById('technical-blog-hub') || document.getElementById('projects');
+    const anchor = document.getElementById('eee-tools') || document.getElementById('technical-blog-hub') || document.getElementById('projects');
     if (anchor) {
       anchor.insertAdjacentElement('afterend', section);
     }
