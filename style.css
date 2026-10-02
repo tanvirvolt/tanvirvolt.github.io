@@ -757,3 +757,106 @@ header.nav-scrolled{
   .v25-tech-bg:before,.v25-tech-bg:after,.v25-tech-line,.hero h2 .typing-role:after{animation:none!important}
   .v25-spotlight{display:none}
 }
+
+
+/* === MOBILE PERFORMANCE MODE === */
+@media(max-width:767px){
+  html{
+    scroll-behavior:auto;
+    scroll-padding-top:70px;
+  }
+  body{
+    overscroll-behavior-x:none;
+  }
+
+  /* Remove GPU/paint-heavy ambient layers on phones. */
+  body:before,
+  .v25-tech-bg,
+  .hero .visual:before,
+  .hero .visual:after,
+  .v2-wave,
+  .v25-spotlight{
+    display:none!important;
+  }
+
+  /* Keep glass styling, but remove expensive backdrop blur on mobile. */
+  .projects-grid article,
+  .services article,
+  .education-grid article,
+  .stats-grid article,
+  .eee-tool-card,
+  .latest-blog-card,
+  .expertise-card,
+  .achievement-card,
+  .case-study-grid article,
+  .contact-cards a,
+  .glass-card{
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+    box-shadow:0 6px 18px rgba(0,0,0,.10),inset 0 1px 0 rgba(255,255,255,.025);
+  }
+
+  /* Disable hover-only visual effects that can trigger extra paints. */
+  .projects-grid article:after,
+  .hero-actions .btn:after{
+    display:none!important;
+  }
+  .projects-grid article:hover,
+  .services article:hover,
+  .education-grid article:hover,
+  .stats-grid article:hover,
+  .eee-tool-card:hover,
+  .latest-blog-card:hover,
+  .expertise-card:hover,
+  .achievement-card:hover,
+  .case-study-grid article:hover,
+  .contact-cards a:hover{
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+  }
+
+  /* Reduce motion workload while preserving smooth section reveals. */
+  .hero .hex{
+    animation:none!important;
+  }
+  .tilt-card,
+  .motion-card{
+    will-change:auto!important;
+  }
+  .latest-blog-card img{
+    transition:none!important;
+  }
+  .v25-section-divider{
+    height:18px;
+    opacity:.7;
+  }
+
+  /* Lighter reveal animation = less work during fast scrolling. */
+  .reveal{
+    transition:opacity .42s ease var(--reveal-delay,0ms),
+               transform .42s ease var(--reveal-delay,0ms)!important;
+  }
+  .reveal.v2-stagger > *{
+    transition:opacity .38s ease,transform .38s ease!important;
+  }
+
+  /* Avoid large shadow repaints on inputs and cards. */
+  input:focus,
+  textarea:focus{
+    box-shadow:0 0 8px rgba(0,234,255,.10);
+  }
+}
+
+@media(max-width:560px){
+  .panel{
+    box-shadow:0 8px 24px rgba(0,0,0,.12);
+  }
+  .v25-section-divider{
+    display:none!important;
+  }
+  .timeline article{
+    transition:opacity .35s ease!important;
+  }
+  .timeline:before{
+    transition:transform .55s ease!important;
+  }
+}
