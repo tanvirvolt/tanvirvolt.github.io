@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Induction Motor Slip Calculator: RPM, Frequency & Poles | TanvirVolt</title>
+<meta name="description" content="Calculate induction motor synchronous speed, slip speed and percentage slip from supply frequency, pole count and rotor speed. Includes formulas, worked example and practical notes.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://tanvirvolt.github.io/tools/induction-motor-slip-calculator.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Induction Motor Slip Calculator | TanvirVolt">
+<meta property="og:description" content="Calculate synchronous speed, rotor slip speed and slip percentage for an AC induction motor.">
+<meta property="og:url" content="https://tanvirvolt.github.io/tools/induction-motor-slip-calculator.html">
+<meta property="og:site_name" content="TanvirVolt">
+<meta property="og:image" content="https://tanvirvolt.github.io/profile.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Induction Motor Slip Calculator | TanvirVolt">
+<meta name="twitter:description" content="A practical calculator for induction motor synchronous speed and slip percentage.">
+<meta name="twitter:image" content="https://tanvirvolt.github.io/profile.jpg">
+<link rel="stylesheet" href="../style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebApplication","name":"Induction Motor Slip Calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://tanvirvolt.github.io/tools/induction-motor-slip-calculator.html","description":"Calculate synchronous speed, slip speed and slip percentage from supply frequency, number of poles and rotor speed.","author":{"@type":"Person","name":"Mohammad Tanberul Islam","url":"https://tanvirvolt.github.io/"}},
+{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://tanvirvolt.github.io/"},{"@type":"ListItem","position":2,"name":"Electrical Engineering Tools","item":"https://tanvirvolt.github.io/#projects"},{"@type":"ListItem","position":3,"name":"Induction Motor Slip Calculator","item":"https://tanvirvolt.github.io/tools/induction-motor-slip-calculator.html"}]}
+]}
+</script>
+<style>
+main{max-width:880px;margin:30px auto;padding:clamp(20px,5vw,48px)}h1{font:700 clamp(32px,5vw,46px) Rajdhani;margin:14px 0}h2{margin-top:28px}p,li{color:var(--muted);line-height:1.8;font-size:14px}.eyebrow{color:var(--cyan);letter-spacing:.12em;font-size:11px;font-weight:700}.calc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}.calc label{color:var(--muted);font-size:12px}.calc input,.calc select{display:block;margin-top:6px;width:100%;padding:12px;background:var(--soft);border:1px solid var(--cyan);border-radius:8px;color:var(--text)}.result{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:18px 0}.metric{padding:16px;background:var(--soft);border-radius:10px}.metric span{display:block;color:var(--muted);font-size:12px}.metric strong{display:block;color:var(--cyan);font-size:22px;margin-top:6px}.note{padding:14px;border-left:3px solid var(--cyan);background:var(--soft);margin:18px 0}.links{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}a.inline-link{color:var(--cyan);text-decoration:underline}@media(max-width:560px){.calc{grid-template-columns:1fr}.result{grid-template-columns:1fr}}
+</style>
+</head>
+<body><div class="shell">
+<header><a class="logo" href="../index.html">Tanvir<span>Volt.</span></a><nav><a href="../index.html#projects">Projects</a><a href="../index.html#thesis">Thesis</a><a href="../index.html#contact">Contact</a></nav></header>
+<main class="panel">
+<div class="eyebrow">ELECTRICAL ENGINEERING TOOL</div>
+<h1>Induction Motor Slip Calculator</h1>
+<p>Calculate an AC induction motor's synchronous speed, slip speed and percentage slip from supply frequency, pole count and actual rotor speed. This free educational tool is useful for electrical engineering students, technicians and motor-maintenance work.</p>
+<div class="calc">
+<label>Supply frequency (Hz)<input id="frequency" type="number" min="1" max="400" step="any" value="50"></label>
+<label>Number of poles<select id="poles"><option value="2">2 poles</option><option value="4" selected>4 poles</option><option value="6">6 poles</option><option value="8">8 poles</option><option value="10">10 poles</option><option value="12">12 poles</option></select></label>
+<label>Measured rotor speed (RPM)<input id="rotor" type="number" min="0" step="any" value="1440"></label>
+</div>
+<button class="btn" id="calculate" type="button">Calculate motor slip</button>
+<div class="result" aria-live="polite">
+<div class="metric"><span>Synchronous speed</span><strong id="sync">1500 RPM</strong></div>
+<div class="metric"><span>Slip speed</span><strong id="slipSpeed">60 RPM</strong></div>
+<div class="metric"><span>Percentage slip</span><strong id="slipPct">4.00%</strong></div>
+</div>
+<h2>Formula for induction motor slip</h2>
+<p>Synchronous speed is calculated as <strong>Ns = 120 × f / P</strong>, where f is supply frequency in hertz and P is the number of stator poles. Slip speed is <strong>Ns − Nr</strong>, where Nr is the actual rotor speed in RPM. Percentage slip is <strong>s = ((Ns − Nr) / Ns) × 100%</strong>.</p>
+<h2>Worked example: 4-pole motor at 50 Hz</h2>
+<p>For a 4-pole motor supplied at 50 Hz, synchronous speed is 120 × 50 / 4 = 1500 RPM. If measured rotor speed is 1440 RPM, slip speed is 60 RPM and slip is (60 / 1500) × 100 = 4%.</p>
+<h2>How to interpret the result</h2>
+<ul><li>In normal motoring operation, rotor speed is typically below synchronous speed, so slip is positive.</li><li>Slip changes with load, supply conditions, motor design and operating state; compare readings under similar conditions.</li><li>A result at or above synchronous speed can indicate a generating/braking condition or incorrect input; check the operating context before interpreting it.</li></ul>
+<div class="note"><strong>Engineering note:</strong> This calculator provides a basic speed/slip calculation. It does not diagnose motor condition, estimate efficiency, or replace manufacturer data and safe maintenance procedures.</div>
+<h2>Related tools and research</h2>
+<p>Continue with the <a class="inline-link" href="motor-current-calculator.html">motor current calculator</a>, <a class="inline-link" href="cable-voltage-drop.html">cable voltage-drop calculator</a>, <a class="inline-link" href="power-factor-calculator.html">power factor calculator</a>, or read about <a class="inline-link" href="../projects/induction-motor-foc.html">induction motor field-oriented control (FOC) in MATLAB/Simulink</a>.</p>
+<div class="links"><a class="btn" href="../index.html#projects">More Engineering Projects</a><a class="btn ghost" href="../index.html">Back to TanvirVolt</a></div>
+</main>
+<footer>© 2026 TanvirVolt · Electrical &amp; Electronics Engineering</footer>
+</div>
+<script>
+(function(){
+const f=document.getElementById('frequency'),p=document.getElementById('poles'),r=document.getElementById('rotor');
+function calc(){
+const hz=Number(f.value),poles=Number(p.value),rpm=Number(r.value);
+const sync=document.getElementById('sync'),speed=document.getElementById('slipSpeed'),pct=document.getElementById('slipPct');
+if(!(hz>0&&hz<=400&&poles>0&&rpm>=0&&Number.isFinite(rpm))){sync.textContent='Check inputs';speed.textContent='—';pct.textContent='—';return;}
+const ns=120*hz/poles,ss=ns-rpm,slip=ss/ns*100;
+sync.textContent=ns.toFixed(2)+' RPM';speed.textContent=ss.toFixed(2)+' RPM';pct.textContent=slip.toFixed(2)+'%';
+}
+document.getElementById('calculate').addEventListener('click',calc);
+[f,p,r].forEach(el=>el.addEventListener('input',calc));calc();
+})();
+</script>
+</body></html>
