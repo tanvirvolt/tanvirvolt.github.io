@@ -860,3 +860,78 @@ header.nav-scrolled{
     transition:transform .55s ease!important;
   }
 }
+
+
+/* === Premium Hero Entrance v3: sequenced reveal + portrait glow === */
+#home.hero > div:first-child > small{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(10px);
+  animation:tv-hero-label-in .65s cubic-bezier(.16,1,.3,1) .08s forwards;
+}
+#home.hero h1{
+  animation:tv-hero-content-in .78s cubic-bezier(.16,1,.3,1) .20s both;
+}
+#home.hero h2{
+  animation:tv-hero-content-in .78s cubic-bezier(.16,1,.3,1) .34s both;
+}
+#home.hero p{
+  animation:tv-hero-content-in .78s cubic-bezier(.16,1,.3,1) .47s both;
+}
+#home.hero .social{
+  animation:tv-hero-content-in .72s cubic-bezier(.16,1,.3,1) .59s both;
+}
+#home.hero .hero-actions{
+  animation:tv-hero-content-in .72s cubic-bezier(.16,1,.3,1) .70s both;
+}
+#home.hero .visual{
+  animation:tv-hero-visual-in .95s cubic-bezier(.16,1,.3,1) .22s both;
+}
+#home.hero .hex{
+  filter:drop-shadow(0 0 13px rgba(0,234,255,.30));
+  animation:tv-hero-float-glow 6s ease-in-out 1.1s infinite;
+  will-change:transform,filter;
+}
+#home.hero .visual:before{
+  animation:tv-hero-orbit-in 1.1s ease-out both,v2-orbit 14s linear 1.1s infinite;
+}
+#home.hero .visual:after{
+  animation:tv-hero-orbit-in 1.1s ease-out .12s both,v2-orbit 19s linear 1.22s infinite reverse;
+}
+@keyframes tv-hero-label-in{
+  from{opacity:0;transform:translateY(10px);letter-spacing:4px}
+  to{opacity:1;transform:translateY(0);letter-spacing:2px}
+}
+@keyframes tv-hero-content-in{
+  from{opacity:0;transform:translate3d(0,22px,0);filter:blur(3px)}
+  to{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
+}
+@keyframes tv-hero-visual-in{
+  from{opacity:0;transform:translate3d(0,18px,0) scale(.97)}
+  to{opacity:1;transform:translate3d(0,var(--hero-parallax,0px),0) scale(1)}
+}
+@keyframes tv-hero-orbit-in{
+  from{opacity:0;scale:.88}
+  to{opacity:1;scale:1}
+}
+@keyframes tv-hero-float-glow{
+  0%,100%{transform:translateY(0);filter:drop-shadow(0 0 13px rgba(0,234,255,.30))}
+  50%{transform:translateY(-10px);filter:drop-shadow(0 0 25px rgba(0,234,255,.60))}
+}
+@media(max-width:767px){
+  #home.hero .visual{animation:tv-hero-visual-in .8s cubic-bezier(.16,1,.3,1) .2s both}
+  #home.hero .hex{will-change:auto}
+}
+@media(prefers-reduced-motion:reduce){
+  #home.hero > div:first-child > small,
+  #home.hero h1,#home.hero h2,#home.hero p,#home.hero .social,
+  #home.hero .hero-actions,#home.hero .visual,#home.hero .hex,
+  #home.hero .visual:before,#home.hero .visual:after{
+    opacity:1!important;
+    transform:none!important;
+    filter:none!important;
+    animation:none!important;
+    scale:1!important;
+    will-change:auto!important;
+  }
+}
