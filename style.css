@@ -1034,3 +1034,19 @@ a,button,input,select,textarea{ -webkit-tap-highlight-color:rgba(0,234,255,.14) 
 :root[data-theme="light"] .project-card-summary{color:#46576b}
 :root[data-theme="light"] .btn:not(.ghost){background:#006d9c;color:#fff;border-color:#006d9c}
 :root[data-theme="light"] .btn.ghost{color:#005b85;border-color:#005b85}
+
+
+/* === Final responsive/accessibility safeguards for interactive engineering visuals === */
+#thesis-visuals .tv-visual-canvas{min-width:0;overflow:hidden;border-radius:12px}
+#thesis-visuals canvas{display:block;max-width:100%;height:auto;outline-offset:4px}
+#thesis-visuals button:focus-visible,#thesis-visuals input:focus-visible{outline:3px solid var(--focus-ring,var(--cyan));outline-offset:3px}
+#thesis-visuals input[type="range"]{accent-color:var(--cyan);cursor:pointer}
+@media(max-width:560px){
+  #thesis-visuals .tv-visual-controls{gap:6px}
+  #thesis-visuals .tv-visual-controls button{min-height:40px;padding:8px 11px}
+  #thesis-visuals .tv-visual-canvas{margin-inline:-4px}
+}
+@media(prefers-reduced-motion:reduce){
+  #thesis-visuals canvas{scroll-behavior:auto}
+  #thesis-visuals .tv-visual-controls button{transition:none!important}
+}
