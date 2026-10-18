@@ -360,12 +360,25 @@
     if (!reduce) {
       const nodes = [...flow.querySelectorAll('.v2-foc-node')];
       let active = 0;
+      let timer = 0;
+      let inView = false;
       const cycle = () => {
         nodes.forEach((node, i) => node.classList.toggle('v2-on', i === active));
         active = (active + 1) % nodes.length;
       };
-      cycle();
-      window.setInterval(cycle, 900);
+      const start = () => { if (!timer && inView && !document.hidden) { cycle(); timer = window.setInterval(cycle, 1200); } };
+      const stop = () => { if (timer) window.clearInterval(timer); timer = 0; };
+      if ('IntersectionObserver' in window) {
+        const flowObserver = new IntersectionObserver(entries => {
+          inView = entries.some(entry => entry.isIntersecting);
+          if (inView) start(); else stop();
+        }, {threshold:.15});
+        flowObserver.observe(flow);
+      } else {
+        inView = true;
+        start();
+      }
+      document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); });
     } else {
       flow.querySelector('.v2-foc-node')?.classList.add('v2-on');
     }
@@ -461,23 +474,21 @@
     spotlight.className = 'v25-spotlight';
     spotlight.setAttribute('aria-hidden','true');
     document.body.appendChild(spotlight);
-    let x = -500, y = -500, tx = x, ty = y, active = false;
     const darkSection = (target) => {
       const section = target.closest?.('.panel, .projects, .thesis, .eee-tools, .contact, #case-studies');
       return !!section && !target.closest('header, footer');
     };
+    // Follow pointer directly: avoid an always-running animation frame when the page is idle.
     document.addEventListener('pointermove', event => {
-      tx = event.clientX; ty = event.clientY;
-      active = darkSection(event.target);
-      spotlight.style.opacity = active ? '1' : '0';
+      if (!darkSection(event.target)) {
+        spotlight.style.opacity = '0';
+        return;
+      }
+      spotlight.style.left = event.clientX + 'px';
+      spotlight.style.top = event.clientY + 'px';
+      spotlight.style.opacity = '1';
     }, {passive:true});
-    const animate = () => {
-      x += (tx-x)*.12; y += (ty-y)*.12;
-      spotlight.style.left = x + 'px';
-      spotlight.style.top = y + 'px';
-      requestAnimationFrame(animate);
-    };
-    animate();
+    document.addEventListener('pointerleave', () => { spotlight.style.opacity = '0'; });
   }
 
   // SVG wave dividers on major sections.
