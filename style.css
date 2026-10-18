@@ -984,3 +984,53 @@ nav a.is-active{border-radius:7px}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
 }
+
+
+/* === Performance, contrast and keyboard accessibility hardening === */
+:root{--focus-ring:rgba(0,234,255,.95)}
+:focus-visible{outline:3px solid var(--focus-ring)!important;outline-offset:3px!important}
+button:disabled,[aria-disabled="true"]{cursor:not-allowed}
+a,button,input,select,textarea{ -webkit-tap-highlight-color:rgba(0,234,255,.14) }
+@media(max-width:767px){
+  body:before{display:none!important}
+  .v25-tech-bg,.v25-spotlight,.v2-wave{display:none!important}
+  .panel:after{opacity:.35;filter:none}
+  .magnetic-btn{transform:none!important}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto!important}
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .reveal,.reveal.v2-stagger,.reveal.v2-stagger>*{opacity:1!important;transform:none!important;filter:none!important}
+  #scroll-progress span{will-change:auto!important}
+}
+:root[data-theme="light"]{
+  --focus-ring:#005b85;
+}
+:root[data-theme="light"] .panel,
+:root[data-theme="light"] .stats-grid article,
+:root[data-theme="light"] .projects-grid article,
+:root[data-theme="light"] .services article,
+:root[data-theme="light"] .education-grid article,
+:root[data-theme="light"] .case-study-grid article,
+:root[data-theme="light"] .contact-cards a{
+  color:var(--text);
+}
+:root[data-theme="light"] p,
+:root[data-theme="light"] li,
+:root[data-theme="light"] .hero p,
+:root[data-theme="light"] .about p,
+:root[data-theme="light"] .timeline p,
+:root[data-theme="light"] .education-grid p,
+:root[data-theme="light"] .contact-intro{
+  color:#46576b;
+}
+:root[data-theme="light"] .project-filter-btn{
+  background:#fff;color:#34465a;border-color:rgba(20,32,51,.22);
+}
+:root[data-theme="light"] .project-filter-btn.active,
+:root[data-theme="light"] .project-card-tools span{
+  color:#005b85;border-color:rgba(0,91,133,.38);
+}
+:root[data-theme="light"] .project-card-summary{color:#46576b}
+:root[data-theme="light"] .btn:not(.ghost){background:#006d9c;color:#fff;border-color:#006d9c}
+:root[data-theme="light"] .btn.ghost{color:#005b85;border-color:#005b85}
