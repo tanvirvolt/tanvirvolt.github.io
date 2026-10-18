@@ -5,7 +5,9 @@
   const canvas=root.querySelector('canvas');
   const ctx=canvas&&canvas.getContext('2d');
   if(!ctx) return;
-  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const motionQuery=window.matchMedia('(prefers-reduced-motion: reduce)');
+  let reduced=motionQuery.matches;
+  let inView=false, pageVisible=!document.hidden;
   const modeButtons=[...root.querySelectorAll('[data-mode]')];
   const speedSlider=root.querySelector('#tv-speed');
   const speedValue=root.querySelector('#tv-speed-value');
@@ -98,12 +100,36 @@
     else if(mode==='pwm')drawPWM();
     else drawSpeed();
   }
+  const stopLoop=()=>{if(raf)cancelAnimationFrame(raf);raf=0;last=0;};
+  const shouldAnimate=()=>!reduced&&inView&&pageVisible;
   const loop=now=>{
+    raf=0;
+    if(!shouldAnimate())return;
     if(!last)last=now;
     const delta=Math.min(50,now-last);last=now;
-    if(!reduced){phase+=delta*.0007*(Number(speedSlider.value)/50);draw();}
+    phase+=delta*.0007*(Number(speedSlider.value)/50);
+    draw();
     raf=requestAnimationFrame(loop);
   };
+  const syncLoop=()=>{
+    if(shouldAnimate()){if(!raf)raf=requestAnimationFrame(loop);}
+    else stopLoop();
+  };
+  const motionChange=event=>{
+    reduced=event.matches;
+    if(reduced)draw();
+    syncLoop();
+  };
+  if(motionQuery.addEventListener)motionQuery.addEventListener('change',motionChange);
+  else if(motionQuery.addListener)motionQuery.addListener(motionChange);
+  document.addEventListener('visibilitychange',()=>{pageVisible=!document.hidden;syncLoop();});
+  if('IntersectionObserver'in window){
+    const visualObserver=new IntersectionObserver(entries=>{
+      inView=entries.some(entry=>entry.isIntersecting);
+      syncLoop();
+    },{threshold:.05});
+    visualObserver.observe(root);
+  }else{inView=true;}
   modeButtons.forEach(btn=>btn.addEventListener('click',()=>{
     mode=btn.dataset.mode;
     modeButtons.forEach(b=>{const active=b===btn;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
@@ -113,9 +139,9 @@
     speedValue.textContent=speedSlider.value+'%';
     if(reduced) { phase+=.08;draw(); }
   });
-  if(!reduced) raf=requestAnimationFrame(loop);
+  if(!reduced) { inView=true; syncLoop(); }
   if('ResizeObserver'in window)new ResizeObserver(resize).observe(canvasWrap);
   else window.addEventListener('resize',resize,{passive:true});
   resize();
-  window.addEventListener('pagehide',()=>cancelAnimationFrame(raf),{once:true});
+  window.addEventListener('pagehide',stopLoop,{once:true});
 })();
